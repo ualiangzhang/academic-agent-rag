@@ -3,7 +3,7 @@
 A full‑stack, serverless application for **uploading, indexing, and conversing with academic papers**.  
 Built for cost‑efficiency on AWS, the project couples a Retrieval‑Augmented Generation (RAG) backend with a modern React web client.
 
-![Architecture Diagram](docs/architecture.png)
+[//]: # (![Architecture Diagram]&#40;docs/architecture.png&#41;)
 
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
