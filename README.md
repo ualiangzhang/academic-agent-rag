@@ -68,16 +68,16 @@ flowchart TD
 
 ## Tech Stack
 
-| Layer | Technology | Reasoning |
-|-------|------------|-----------|
-| **Frontend** | Next.js 14, React 18, Tailwind CSS | Static hosting, fast DX |
-| **Auth** | Amazon Cognito OAuth2 | Managed user pools, MFA |
-| **API** | API Gateway REST / Lambda (Python 3.12) | Pay‑per‑ms, easy rollbacks |
-| **Workflow** | AWS Step Functions Express | Event‑driven pipeline |
-| **Storage** | S3, Aurora PostgreSQL v2 + pgvector | Cheap, scales to 15 M docs |
-| **Vector Search** | pgvector `ivfflat` index; optional OpenSearch | Start cheap, upgrade later |
+| Layer | Technology                                                        | Reasoning |
+|-------|-------------------------------------------------------------------|-----------|
+| **Frontend** | Next.js 14, React 18, Tailwind CSS                                | Static hosting, fast DX |
+| **Auth** | Amazon Cognito OAuth2                                             | Managed user pools, MFA |
+| **API** | API Gateway REST / Lambda (Python 3.11)                           | Pay‑per‑ms, easy rollbacks |
+| **Workflow** | AWS Step Functions Express                                        | Event‑driven pipeline |
+| **Storage** | S3, Aurora PostgreSQL v2 + pgvector                               | Cheap, scales to 15 M docs |
+| **Vector Search** | pgvector `ivfflat` index; optional OpenSearch                     | Start cheap, upgrade later |
 | **LLM & Embeddings** | Amazon Bedrock (Claude Haiku or Command R; Titan Text Embeddings) | On‑demand token billing |
-| **IaC & CI** | AWS CDK v2 (TypeScript), GitHub Actions | Unified infra‑app repo |
+| **IaC & CI** | AWS CDK v2 (TypeScript), GitHub Actions                           | Unified infra‑app repo |
 
 ---
 
