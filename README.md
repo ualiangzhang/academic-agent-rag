@@ -50,16 +50,16 @@ Built for cost‑efficiency on AWS, the project couples a Retrieval‑Augmented 
 ```mermaid
 flowchart TD
   subgraph Ingest
-    A[S3 Upload] --> B{Textract or<br/>PyPDF2}
-    B --> C[Summarize (Prompt ↦ Bedrock LLM)]
-    C --> D[Embed (Titan Text)]
+    A[S3 Upload] --> B{"Textract or PyPDF2"}
+    B --> C["Summarize (Prompt -> Bedrock LLM)"]
+    C --> D["Embed (Titan Text)"]
     D --> E[(Aurora pgvector)]
   end
   subgraph Query
-    F[User Question] --> G[Embed (Titan)]
+    F[User Question] --> G["Embed (Titan)"]
     G --> E
     E --> H[Compose Context]
-    H --> I[Answer (Bedrock LLM)]
+    H --> I["Answer (Bedrock LLM)"]
     I --> J[Frontend Chat]
   end
 ```
@@ -87,11 +87,11 @@ flowchart TD
 
 | Tool | Version | Notes |
 |------|---------|-------|
-| Node.js | ≥ 18 LTS | `n` or `asdf` recommended |
+| Node.js | ≥ 18 LTS | `n` or `asdf` recommended |
 | Python | 3.12 | Managed by `pyenv` or `asdf` |
-| Poetry | ≥ 1.7 | Python dependency mgmt |
-| AWS CLI | ≥ 2.13 | Auth via SSO / profiles |
-| AWS CDK | v2 globally | `npm i -g aws-cdk@2` |
+| Poetry | ≥ 1.7 | Python dependency mgmt |
+| AWS CLI | ≥ 2.13 | Auth via SSO / profiles |
+| AWS CDK | v2 globally | `npm i -g aws-cdk@2` |
 | Docker Desktop | latest | Local mocks |
 
 ### 2 – Bootstrap
@@ -146,7 +146,7 @@ make nuke STAGE=dev    # cdk destroy --all
 
 ## Configuration
 
-All runtime settings are **12-factor** environment variables.
+All runtime settings are **12‑factor** environment variables.
 
 | Variable | Purpose | Example |
 |----------|---------|---------|
