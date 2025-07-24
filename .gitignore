@@ -1,0 +1,32 @@
+# Node.js
+node_modules/
+**/node_modules/
+
+# npm/Yarn logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# CDK
+cdk.out/
+cdk.context.json
+
+# Python
+**/venv/
+**/.venv/
+pip-log.txt
+
+# AWS CLI/SSO cache
+.aws/cli/cache/
+.aws-sso/cache/
+
+# macOS
+.DS_Store
+
+# IDEs & editors
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+
