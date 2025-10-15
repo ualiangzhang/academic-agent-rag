@@ -1,32 +1,37 @@
-# Node.js
-node_modules/
-**/node_modules/
-
-# npm/Yarn logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# CDK
-cdk.out/
-cdk.context.json
+# Env and secrets
+.env
+.env.*
+*.secret
+*.secrets
 
 # Python
-**/venv/
-**/.venv/
-pip-log.txt
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
 
-# AWS CLI/SSO cache
-.aws/cli/cache/
-.aws-sso/cache/
-
-# macOS
+# Editors/OS
 .DS_Store
-
-# IDEs & editors
-.vscode/
 .idea/
+.vscode/
 
-# Temporary files
-*.tmp
+# Caches and logs
+*.log
+.cache/
+.pytest_cache/
+.mypy_cache/
 
+# Local databases
+*.sqlite
+*.db
+
+# Coverage
+htmlcov/
+.coverage*
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
