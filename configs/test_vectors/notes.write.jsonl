@@ -1,0 +1,3 @@
+{"key":"literature/summarization/2024-10-01.md","text":"Notes about RAG design tradeoffs","metadata":{"tags":["rag","design"]}}
+{"key":"ideas/agent/roadmap.md","text":"Planner/Verifier loop backlog","metadata":{"priority":"high"}}
+{"key":"db/queries/examples.sql","text":"select 1;"}

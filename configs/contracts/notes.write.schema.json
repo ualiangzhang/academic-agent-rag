@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "notes.write",
+  "type": "object",
+  "properties": {
+    "key": {"type": "string"},
+    "text": {"type": "string"},
+    "metadata": {"type": "object"},
+    "trace_id": {"type": "string"},
+    "run_id": {"type": "string"}
+  },
+  "required": ["key", "text"],
+  "additionalProperties": false,
+  "x-errors": {
+    "codes": [
+      {"code": "CONFLICT", "retryable": true},
+      {"code": "INVALID_ARGUMENT", "retryable": false}
+    ],
+    "timeout_ms": 5000,
+    "rate_limit_rps": 10,
+    "idempotent": false
+  },
+  "x-output": {
+    "type": "object",
+    "properties": {
+      "ok": {"type": "boolean"},
+      "version": {"type": "string"},
+      "trace_id": {"type": "string"},
+      "run_id": {"type": "string"}
+    },
+    "required": ["ok"]
+  }
+}

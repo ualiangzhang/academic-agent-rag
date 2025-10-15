@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "rag.retrieve",
+  "type": "object",
+  "properties": {
+    "query": {"type": "string", "minLength": 1},
+    "top_k": {"type": "integer", "minimum": 1, "maximum": 50, "default": 5},
+    "filters": {"type": "object", "additionalProperties": true},
+    "trace_id": {"type": "string"},
+    "run_id": {"type": "string"}
+  },
+  "required": ["query"],
+  "additionalProperties": false,
+  "x-errors": {
+    "codes": [
+      {"code": "TIMEOUT", "retryable": true},
+      {"code": "BACKEND_UNAVAILABLE", "retryable": true},
+      {"code": "INVALID_ARGUMENT", "retryable": false}
+    ],
+    "timeout_ms": 8000,
+    "rate_limit_rps": 10,
+    "idempotent": true
+  },
+  "x-output": {
+    "type": "object",
+    "properties": {
+      "matches": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "text": {"type": "string"},
+            "source": {"type": "string"},
+            "score": {"type": "number"},
+            "doc_id": {"type": "string"}
+          },
+          "required": ["text", "source", "score"]
+        }
+      },
+      "trace_id": {"type": "string"},
+      "run_id": {"type": "string"}
+    },
+    "required": ["matches"]
+  }
+}

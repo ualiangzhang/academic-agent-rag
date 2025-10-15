@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "notes.read",
+  "type": "object",
+  "properties": {
+    "key": {"type": "string"},
+    "query": {"type": "string"},
+    "trace_id": {"type": "string"},
+    "run_id": {"type": "string"}
+  },
+  "oneOf": [
+    {"required": ["key"]},
+    {"required": ["query"]}
+  ],
+  "additionalProperties": false,
+  "x-errors": {
+    "codes": [
+      {"code": "NOT_FOUND", "retryable": false},
+      {"code": "INVALID_ARGUMENT", "retryable": false}
+    ],
+    "timeout_ms": 3000,
+    "rate_limit_rps": 20,
+    "idempotent": true
+  },
+  "x-output": {
+    "type": "object",
+    "properties": {
+      "items": {"type": "array", "items": {"type": "object"}},
+      "trace_id": {"type": "string"},
+      "run_id": {"type": "string"}
+    },
+    "required": ["items"]
+  }
+}

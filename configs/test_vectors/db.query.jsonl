@@ -1,0 +1,3 @@
+{"sql":"select count(*) from documents","params":[]}
+{"sql":"select * from documents where id=$1","params":["doc_123"]}
+{"sql":"select * from chunks where score > $1 order by score desc limit 5","params":[0.8]}

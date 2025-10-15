@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "papers.fetch",
+  "type": "object",
+  "properties": {
+    "pdf_url": {"type": "string", "format": "uri"},
+    "doc_id": {"type": "string"},
+    "trace_id": {"type": "string"},
+    "run_id": {"type": "string"}
+  },
+  "required": ["pdf_url"],
+  "additionalProperties": false,
+  "x-errors": {
+    "codes": [
+      {"code": "TIMEOUT", "retryable": true},
+      {"code": "NOT_FOUND", "retryable": false},
+      {"code": "INVALID_ARGUMENT", "retryable": false}
+    ],
+    "timeout_ms": 20000,
+    "rate_limit_rps": 5,
+    "idempotent": true
+  },
+  "x-output": {
+    "type": "object",
+    "properties": {
+      "text": {"type": "string"},
+      "metadata": {"type": "object"},
+      "doc_id": {"type": "string"},
+      "trace_id": {"type": "string"},
+      "run_id": {"type": "string"}
+    },
+    "required": ["text"]
+  }
+}

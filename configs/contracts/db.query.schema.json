@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "db.query",
+  "type": "object",
+  "properties": {
+    "sql": {"type": "string", "minLength": 1},
+    "params": {"type": "array", "items": {}},
+    "trace_id": {"type": "string"},
+    "run_id": {"type": "string"}
+  },
+  "required": ["sql"],
+  "additionalProperties": false,
+  "x-errors": {
+    "codes": [
+      {"code": "TIMEOUT", "retryable": true},
+      {"code": "SYNTAX_ERROR", "retryable": false},
+      {"code": "CONNECTION_ERROR", "retryable": true}
+    ],
+    "timeout_ms": 8000,
+    "rate_limit_rps": 10,
+    "idempotent": true
+  },
+  "x-output": {
+    "type": "object",
+    "properties": {
+      "rows": {"type": "array", "items": {"type": "object"}},
+      "trace_id": {"type": "string"},
+      "run_id": {"type": "string"}
+    },
+    "required": ["rows"]
+  }
+}
