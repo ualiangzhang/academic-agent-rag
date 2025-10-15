@@ -88,18 +88,33 @@ async def run_orchestrator(messages: List[Dict[str, str]], registry: Dict[str, s
     async with httpx.AsyncClient(timeout=int(os.getenv("REQUEST_TIMEOUT", 15))) as client:
         while state.step_idx < len(state.plan.steps):
             try:
+                # checkpoint for rollback
+                checkpoint = {
+                    "step_idx": state.step_idx,
+                    "scratchpad": list(state.scratchpad),
+                    "evidence": list(state.evidence),
+                }
                 state = await exec_step(state, client, registry)
                 v = await verifier(state)
-                if v["action"] == "retry":
-                    # simple single retry then skip
+                if v.get("action") == "retry":
+                    # single retry then skip with rollback
                     try:
                         state = await exec_step(state, client, registry)
                     except Exception:
-                        # skip this step on repeated failure
+                        state.step_idx = checkpoint["step_idx"]
+                        state.scratchpad = checkpoint["scratchpad"]
+                        state.evidence = checkpoint["evidence"]
                         state.step_idx += 1
                         save_run(RunRecord(run_id=state.run_id, status=state.status, state=state.__dict__, error=state.error))
                         continue
-                # approved
+                elif v.get("action") == "rollback":
+                    state.step_idx = checkpoint["step_idx"]
+                    state.scratchpad = checkpoint["scratchpad"]
+                    state.evidence = checkpoint["evidence"]
+                    state.step_idx += 1
+                    save_run(RunRecord(run_id=state.run_id, status=state.status, state=state.__dict__, error=state.error))
+                    continue
+                # approve by default
                 state.step_idx += 1
                 save_run(RunRecord(run_id=state.run_id, status=state.status, state=state.__dict__, error=state.error))
             except Exception as e:

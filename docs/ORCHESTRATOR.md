@@ -5,12 +5,13 @@ This document describes the orchestrator graph, transitions, and persistence mod
 ## Graph and Transitions
 - plan: create `Plan` from messages
 - exec: invoke current step tool and collect scratchpad + evidence
-- verify: approve, retry once, or skip; on approval, advance step
+- verify: approve, retry once, or rollback→skip; on approval, advance step
 - terminal: when `step_idx == len(steps)`, mark `completed`
 
 ## Error Handling
 - On exec error: persist state with `status=running` and `error`; allow resume
-- Retry policy: single retry then skip
+- Retry policy: single retry then rollback→skip current step
+- Verifier may request explicit `rollback` → revert to checkpoint and skip
 
 ## Persistence
 - SQLite file `orchestrator.sqlite`
