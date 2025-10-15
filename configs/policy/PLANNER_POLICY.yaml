@@ -1,0 +1,32 @@
+roles:
+  user:
+    allowed_tools: ["rag.retrieve", "papers.search", "papers.fetch", "notes.read", "notes.write"]
+    max_steps: 6
+    max_budget_tokens: 20000
+    max_wallclock_seconds: 30
+  admin:
+    allowed_tools: ["rag.retrieve", "papers.search", "papers.fetch", "notes.read", "notes.write", "db.query"]
+    max_steps: 12
+    max_budget_tokens: 80000
+    max_wallclock_seconds: 120
+
+risk_matrix:
+  retrieval_failure: rollback_skip
+  upstream_429: retry_then_rollback
+  timeout: retry_then_rollback
+
+stop_conditions:
+  - when: "evidence_sufficient"
+  - when: "budget_exhausted"
+  - when: "no_more_actions"
+
+rubric:
+  consistency:
+    description: "Plan is coherent with user goal and constraints"
+    scale: [1, 5]
+  grounding:
+    description: "Plan requests evidence and cites tools that provide it"
+    scale: [1, 5]
+  efficiency:
+    description: "Minimize steps and cost without hurting quality"
+    scale: [1, 5]

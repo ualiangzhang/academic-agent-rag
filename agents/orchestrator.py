@@ -8,6 +8,7 @@ from fastapi import HTTPException
 import httpx
 
 from .persistence import save_run, load_run, RunRecord
+from .planner import build_plan, plan_to_dict, Plan as PlannerPlan, PlanStep as PlannerPlanStep
 
 # Placeholder for LangGraph-like node execution
 
@@ -33,11 +34,9 @@ class AgentState:
     error: str | None = None
 
 
-async def planner(messages: List[Dict[str, str]]) -> Plan:
-    # Minimal planner: route to rag.retrieve with the last user message
-    last_user = next((m for m in reversed(messages) if m["role"] == "user"), None)
-    query = last_user["content"] if last_user else ""
-    return Plan(steps=[PlanStep(tool="rag.retrieve", args={"query": query, "top_k": 3})])
+async def planner(messages: List[Dict[str, str]]) -> PlannerPlan:
+    # Use structured planner with policy constraints
+    return build_plan(messages)
 
 
 async def exec_step(state: AgentState, client: httpx.AsyncClient, registry: Dict[str, str]) -> AgentState:
@@ -75,14 +74,16 @@ async def run_orchestrator(messages: List[Dict[str, str]], registry: Dict[str, s
         if rec:
             state_dict = rec.state
             # naive reconstruction
-            plan = Plan(steps=[PlanStep(**s) for s in state_dict["plan"]["steps"]])
+            plan = Plan(steps=[PlanStep(tool=s["tool"], args=s.get("params") or s.get("args", {})) for s in state_dict["plan"]["steps"]])
             state = AgentState(run_id=rec.run_id, plan=plan, step_idx=state_dict["step_idx"], scratchpad=state_dict["scratchpad"], evidence=state_dict["evidence"], status=rec.status, error=rec.error)
         else:
             # cannot resume; start fresh
-            plan = await planner(messages)
+            p = await planner(messages)
+            plan = Plan(steps=[PlanStep(tool=s.tool, args=s.params) for s in p.steps])
             state = AgentState(run_id=run_id, plan=plan)
     else:
-        plan = await planner(messages)
+        p = await planner(messages)
+        plan = Plan(steps=[PlanStep(tool=s.tool, args=s.params) for s in p.steps])
         state = AgentState(run_id=run_id, plan=plan)
 
     async with httpx.AsyncClient(timeout=int(os.getenv("REQUEST_TIMEOUT", 15))) as client:
