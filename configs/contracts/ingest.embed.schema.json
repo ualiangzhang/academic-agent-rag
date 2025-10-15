@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ingest.embed",
+  "type": "object",
+  "properties": {
+    "doc_id": {"type": "string"},
+    "text": {"type": "string"},
+    "trace_id": {"type": "string"},
+    "run_id": {"type": "string"}
+  },
+  "required": ["doc_id", "text"],
+  "additionalProperties": false,
+  "x-errors": {
+    "codes": [
+      {"code": "TIMEOUT", "retryable": true},
+      {"code": "BACKEND_UNAVAILABLE", "retryable": true},
+      {"code": "INVALID_ARGUMENT", "retryable": false}
+    ],
+    "timeout_ms": 15000,
+    "rate_limit_rps": 5,
+    "idempotent": true
+  },
+  "x-output": {
+    "type": "object",
+    "properties": {
+      "ok": {"type": "boolean"},
+      "vector_count": {"type": "integer"}
+    },
+    "required": ["ok"]
+  }
+}

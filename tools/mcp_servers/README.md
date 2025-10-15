@@ -10,6 +10,7 @@ Servers:
 - papers_server.py (port 7002)
 - notes_server.py (port 7003)
 - db_server.py (port 7004)
+ - ingest_server.py (port 7005)
 
 Concurrency and limits:
 - Gate concurrency via `MAX_CONCURRENCY` env var (default 8)
