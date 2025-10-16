@@ -13,6 +13,7 @@
 | VECTOR_DB_URL | Vector DB conn string | req if store=pgvector | - | postgres://user:pass@host:5432/db |
 | CACHE_URL | Cache conn string | no | - | redis://host:6379 |
 | MCP_SERVERS | Tool registry (comma-separated) | yes | - | rag.retrieve,papers.search,... |
+| MCP_REGISTRY_JSON | Tool→URL mapping (JSON) | no | - | {"rag.retrieve":"http://localhost:7001","papers.search":"http://localhost:7002","papers.fetch":"http://localhost:7002","notes.read":"http://localhost:7003","notes.write":"http://localhost:7003","db.query":"http://localhost:7004","ingest.upload":"http://localhost:7005","ingest.extract":"http://localhost:7005","ingest.embed":"http://localhost:7005"} |
 
 Guidelines:
 - Secrets are never committed; inject via env/secret manager.

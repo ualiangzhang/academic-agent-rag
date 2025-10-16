@@ -94,6 +94,7 @@ flowchart TD
 - `papers.fetch`: fetch and parse PDFs, extract text and metadata.
 - `notes.write` / `notes.read`: persistent notes for iterative research.
 - `db.query`: SQL over Postgres/pgvector for advanced filters.
+- `ingest.upload` / `ingest.extract` / `ingest.embed`: upload PDFs, extract text, and create embeddings.
 
 Each tool declares its schema, limits, safety policy, and test vectors.
 
@@ -113,7 +114,7 @@ Each tool declares its schema, limits, safety policy, and test vectors.
 
 - Prepare a Python 3.12 environment and install dependencies for MCP, orchestration, memory, and API hosting.
 - Stand up a vector store (local FAISS/Chroma, or Postgres+pgvector) and an optional cache (Redis/SQLite).
-- Implement and register baseline MCP servers (`rag.retrieve`, `papers.search`, `notes.*`, `db.query`).
+- Implement and register baseline MCP servers (`rag.retrieve`, `papers.search`, `notes.*`, `db.query`, `ingest.*`).
 - Run the API gateway and MCP host; expose a `/chat` endpoint that invokes the planner/orchestrator.
 - Add health checks and minimal tool contract tests.
 
